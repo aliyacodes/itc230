@@ -16,11 +16,8 @@
   "bugs": {
     "url": "https://github.com/aliyacodes/itc230/issues"
   },
-  "homepage": "https://github.com/aliyacodes/itc230#readme"
-    }
-    /*
-  "name": "fs",
-  "main": "/Users/aliyaasken/Desktop/SCH00L/ITC230-SP19/itc230/public/home.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  }*/
+  "homepage": "https://github.com/aliyacodes/itc230#readme",
+  "dependencies": {
+    "package.json": "^2.0.1"
+  }
+}

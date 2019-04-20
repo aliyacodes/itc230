@@ -8,20 +8,21 @@ http.createServer((req,res) => {
 
     
     
-  	switch(path) {
-         case '/':   
+    switch(path) {
+        case '/':   
             
             const fs = require('fs');
             //const jsonData = JSON.parse('/Users/aliyaasken/Desktop/SCH00L/ITC230-SP19/itc230/public/home.html');
             
             
-            fs.readFile(require('/Users/aliyaasken/Desktop/SCH00L/ITC230-SP19/itc230/public/home.html', (err, data) => {
+            fs.readFile(require('/Users/aliyaasken/Desktop/SCH00L/ITC230-SP19/itc230/public/home.html', (err, html) => {
                 if (err) return console.error(err);
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.end(data.toString());
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.write(data);  
+                res.end();  
+                //res.end(data.toString());
  
             }));
-
 
         case '/about':
             res.writeHead(200, {'Content-Type': 'text/plain'});
