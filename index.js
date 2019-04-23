@@ -27,6 +27,11 @@ http.createServer((req,res) => {
             });
             break;
 
+        case '/delete':
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end('delete');
+            break;
+
         default:
             res.writeHead(404, {'Content-Type': 'text/plain'});
             res.end('Not found');
