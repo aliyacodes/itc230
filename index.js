@@ -1,101 +1,54 @@
 'use strict'
 
-var http = require("http"), fs = require("fs"), qs = require("querystring");
 let cartoon = require("lib/cartoon.js");
 
-http.createServer((req,res) => {
-    console.log("refreshed");
-    let url = req.url.split("?");  // separate route from query string
-    let query = qs.parse(url[1]); // convert query string to object
-    let path = url[0].toLowerCase();
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+
+app.set('port', process.env.PORT || 3000);
+app.use(express.static(__dirname + '/public')); // allows direct navigation to static files
+app.use(require("body-parser").urlencoded({extended: true}));
+
+let handlebars =  require("express-handlebars");
+app.engine(".html", handlebars({extname: '.html'}));
+app.set("view engine", ".html");
+
+// HOME - send static file as response
+app.get('/', function(req,res){
+    res.type('text/html');
+    res.sendFile(__dirname + '/public/home.html');
+});
+
+// ABOUT - send plain text response
+app.get('/about', function(req,res){
+    res.type('text/plain');
+    res.send('About page');
+});
+
+// SEARCH - handle POST
+app.post('/get', function(req,res){
+    console.log(req.body)
+    var header = 'Searching for: ' + req.body.show + '<br>';
+    var found = cartoon.get(req.body.show);
+    res.render("details", {show: req.body.show, result: found});
+});
+
+// DELETE - handle GET
+app.get('/delete', function(req,res){
+    let result = cartoon.delete(req.query.show); // delete cartoon object
+    res.render('delete', {show: req.query.show, result: result});
+});
 
 
-    switch(path) {
-        case '/':
+// define 404 handler
+app.use(function(req,res) {
+    res.type('text/plain');
+    res.status(404);
+    res.send('404 - Not found');
+});
 
-            fs.readFile("public/home.html", (err, data) =>{
-                if (err) return console.error(err);
-                res.writeHead(200, {'Content-Type': 'text/html'});
-                res.end(data.toString());
-            });
-            break;
-        case '/about':
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end('About page');
-            break;
+app.listen(app.get('port'), function() {
+    console.log('Express started');
+});
 
-        case '/get':
-
-            let found = cartoon.get(query.show);
-                res.writeHead(200, {'Content-Type': 'text/plain'});
-                let results = (found) ? JSON.stringify(found) : "Not found";
-                res.end('Results for ' + query.show + "\n" + results);
-            break;
-
-
-        case '/delete':
-            let removed = cartoon.delete(query.show);
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            let deleted = (removed) ? JSON.stringify(removed) : "Not found";
-            res.end(query.show  + ' removed');
-            break;
-
-        default:
-            res.writeHead(404, {'Content-Type': 'text/plain'});
-            res.end('Not found');
-            break;
-    }
-
-}).listen(process.env.PORT || 3000);
-console.log("Server created");
-
-/*
-'use strict'
-
-var http = require("http"), fs = require('fs'), qs = require("querystring");
-const cartoon = require("lib/cartoon.js");
-
-function serveStatic(res, path, contentType, responseCode){
-    if(!responseCode) responseCode = 200;
-    fs.readFile(__dirname + path, function(err, data){
-        if(err){
-            res.writeHead(500, {'Content-Type': 'text/plain'});
-            res.end('Internal Server Error');
-        }
-        else{
-            res.writeHead(responseCode, {'Content-Type': contentType});
-            res.end(data);
-        }
-    });
-}
-
-http.createServer((req,res) => {
-    let url = req.url.split("?");
-    let query = qs.parse(url[1]);
-    let path = url[0].toLowerCase();
-
-    switch(path) {
-        case '/':
-            serveStatic(res, 'public/home.html', 'text/html');
-            break;
-        case '/about':
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end('About');
-            break;
-        case '/get':
-            let found = cartoon.get(query.show);
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            let results = (found) ? JSON.stringify(found) : "Not found";
-            res.end('Results for ' + query.show + "\n" + results);
-            break;
-        case '/delete':
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end('delete');
-            break;
-        default:
-            res.writeHead(404, {'Content-Type': 'text/plain'});
-            res.end('404:Page not found.');
-    }
-
-}).listen(process.env.PORT || 3000);
-*/
