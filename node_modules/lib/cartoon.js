@@ -25,3 +25,13 @@ exports.delete = (show) => {
 	});
 	return {deleted: oldLength !== cartoons.length, total: cartoons.length };
 };
+
+exports.add = (newCartoon) => {
+	const oldLength = cartoons.length;
+	// use existing get() method to check if show already in our list
+	let found = this.get(newCartoon.show);
+	if (!found) {
+		cartoons.push(newCartoon);
+	}
+	return {added: oldLength !== cartoons.length, total: cartoons.length };
+};

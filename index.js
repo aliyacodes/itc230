@@ -28,9 +28,9 @@ app.get('/about', function(req,res){
 
 // SEARCH - handle POST
 app.post('/get', function(req,res){
-    console.log(req.body)
-    var header = 'Searching for: ' + req.body.show + '<br>';
-    var found = cartoon.get(req.body.show);
+    console.log(req.body);
+    let header = 'Searching for: ' + req.body.show + '<br>';
+    let found = cartoon.get(req.body.show);
     res.render("details", {show: req.body.show, result: found});
 });
 
@@ -39,7 +39,6 @@ app.get('/delete', function(req,res){
     let result = cartoon.delete(req.query.show); // delete cartoon object
     res.render('delete', {show: req.query.show, result: result});
 });
-
 
 // define 404 handler
 app.use(function(req,res) {
