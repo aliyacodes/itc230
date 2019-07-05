@@ -3,12 +3,14 @@
         <a href="/">Home</a>
 {{#if result}}
 
-        <h2>{{show}} details</h2>
+
+        <h2>You searched for: {{show}}</h2>
             <li>Show: {{result.show}}</li>
             <li>Original Network: {{result.network}}</li>
             <li>Original Release Date: {{result.airdate}}</li>
                 <p>
                  <a href="/delete?show={{result.show}}">Delete</a>
+
                 </p>
 {{else}}
         <h2>{{show}} not found</h2>

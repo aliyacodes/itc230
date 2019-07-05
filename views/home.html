@@ -1,25 +1,14 @@
 
 <html>
 <body>
-<h2>Home</h2>
-<form method="POST" action="/get">
+<h2>Home {{name}}</h2>
+
+<form method="POST" action="/details">
     <input type="text" name="show" placeholder="Search cartoons..." required maxlength="100">
     <button>Search</button>
 </form>
-<!--{{#if books}}-->
-<h3>Cartoons</h3>
-<!--{{/if}}
-{{#each books}}-->
-<!--<li><a href="/get?show={{show}}">{{show}}</a></li>-->
-<!--{{/each}}-->
 
-<!--<ul>
-    <li><a href="/">South Park</a></li>
-    <li><a href="/">Family Guy</a></li>
-    <li><a href="/">Bob's Burgers</a></li>
-    <li><a href="/">Rick and Morty</a></li>
-    <li><a href="/">American Dad</a></li>
-</ul>
--->
+<h3>Cartoons</h3>
+
 </body>
 </html>
