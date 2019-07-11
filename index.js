@@ -9,7 +9,7 @@ const bodyParser = require("body-parser");
 const app = express();
 
 app.set('port', process.env.PORT || 3000);
-app.use(express.static(__dirname + '/public')); // allows direct navigation to static files
+app.use(express.static(__dirname + '/views')); // allows direct navigation to static files
 app.use(bodyParser.urlencoded({extended: true}));
 
 const handlebars =  require("express-handlebars");
@@ -24,7 +24,7 @@ app.set("view engine", ".html");
 // });
 
 app.get('/', (req,res) => {
-    res.render('home', {name: req.query.name});
+    res.render('home', {cartoons: cartoon.getAll()});
 });
 
 // ABOUT - send plain text response
@@ -35,14 +35,24 @@ app.get('/about', (req,res) => {
 });
 
 
-
-
 // SEARCH - handle POST (post renders body)
 app.post('/details', (req,res) => {
     console.log(req.body);
     let found = cartoon.get(req.body.show);
-    res.render("details", {show: req.body.show, result: found});
+    res.render('details', {show: req.body.show, result: found, cartoons: cartoon.getAll()});
 });
+
+
+
+// ADD
+app.get('/details', (req,res) => {
+    console.log(req.query);
+    let found = cartoon.get(req.query.show);
+    res.render('details', {show: req.query.show, result: found, cartoons: cartoon.add()});
+});
+
+
+
 
 // DELETE - handle GET (get renders query)
 app.get('/delete', (req,res) => {
@@ -50,10 +60,6 @@ app.get('/delete', (req,res) => {
     res.render('delete', {show: req.query.show, result: result});
 });
 
-// app.post('/add', (req,res) => {
-//     let found = cartoon.add(req.body.show); // add cartoon object
-//     res.render('add', {show: req.body.show, result: found});
-// });
 
 // define 404 handler
 app.use((req,res) => {

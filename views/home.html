@@ -1,14 +1,23 @@
-
 <html>
-<body>
-<h2>Home {{name}}</h2>
+    <body>
+        <h2>Home {{name}}</h2>
 
-<form method="POST" action="/details">
-    <input type="text" name="show" placeholder="Search cartoons..." required maxlength="100">
-    <button>Search</button>
-</form>
+            <form method="POST" action="/details">
+                <input type="text" name="show" placeholder="Search cartoons..." required maxlength="100">
+                <button>Search</button>
+            </form>
 
-<h3>Cartoons</h3>
+            <form method="GET" action="/details">
+                <input type="text" name="show" placeholder="Add cartoons..." required maxlength="100">
+                <button>Add</button>
+            </form>
 
-</body>
+        <h3>Cartoons</h3>
+
+
+        {{#each cartoons}}
+            <li><a href="/details?show={{show}}">{{show}}</a></li>
+        {{/each}}
+
+    </body>
 </html>
