@@ -34,30 +34,25 @@ app.get('/about', (req,res) => {
     //res.send('About ' + req.query.name + '\'s page');
 });
 
+// ADD
+app.get('/details', (req,res) => {
+    console.log(req.query);
+    let found = cartoon.get(req.query.show);
+    res.render('details', {show: req.query.show, result: found});
+});
+
+// DELETE - handle GET (get renders query)
+app.get('/delete', (req,res) => {
+    console.log(req.query.show + ' deleted');
+    let result = cartoon.delete(req.query.show); // delete cartoon object
+    res.render('delete', {show: req.query.show, result: result});
+});
 
 // SEARCH - handle POST (post renders body)
 app.post('/details', (req,res) => {
     console.log(req.body);
     let found = cartoon.get(req.body.show);
     res.render('details', {show: req.body.show, result: found, cartoons: cartoon.getAll()});
-});
-
-
-
-// ADD
-app.get('/details', (req,res) => {
-    console.log(req.query);
-    let found = cartoon.get(req.query.show);
-    res.render('details', {show: req.query.show, result: found, cartoons: cartoon.add()});
-});
-
-
-
-
-// DELETE - handle GET (get renders query)
-app.get('/delete', (req,res) => {
-    let result = cartoon.delete(req.query.show); // delete cartoon object
-    res.render('delete', {show: req.query.show, result: result});
 });
 
 
@@ -71,4 +66,3 @@ app.use((req,res) => {
 app.listen(app.get('port'), () => {
     console.log('Express started at ' + __dirname);
 });
-
