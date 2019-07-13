@@ -1,7 +1,6 @@
 'use strict'
 
 
-
 let cartoon = require("lib/cartoon.js");
 
 const express = require("express");
@@ -16,12 +15,6 @@ const handlebars =  require("express-handlebars");
 app.engine(".html", handlebars({extname: '.html', defaultLayout: false}));
 app.set("view engine", ".html");
 
-// HOME - send static file as response
-// app.get('/', (req,res) => {
-//     console.log(req.query)
-//     res.type('text/html');
-//     res.sendFile(__dirname + '/public/home.html');
-// });
 
 app.get('/', (req,res) => {
     res.render('home', {cartoons: cartoon.getAll()});
@@ -31,14 +24,6 @@ app.get('/', (req,res) => {
 app.get('/about', (req,res) => {
     res.type('text/plain');
     res.send('About Page');
-    //res.send('About ' + req.query.name + '\'s page');
-});
-
-// ADD
-app.get('/details', (req,res) => {
-    console.log(req.query);
-    let found = cartoon.get(req.query.show);
-    res.render('details', {show: req.query.show, result: found});
 });
 
 // DELETE - handle GET (get renders query)
@@ -48,13 +33,19 @@ app.get('/delete', (req,res) => {
     res.render('delete', {show: req.query.show, result: result});
 });
 
+// ADD - handle GET (get renders query)
+app.get('/details', (req,res) => {
+    console.log(req.query);
+    let found = cartoon.get(req.query.show);
+    res.render('details', {show: req.query.show, result: found});
+});
+
 // SEARCH - handle POST (post renders body)
 app.post('/details', (req,res) => {
     console.log(req.body);
     let found = cartoon.get(req.body.show);
     res.render('details', {show: req.body.show, result: found, cartoons: cartoon.getAll()});
 });
-
 
 // define 404 handler
 app.use((req,res) => {
