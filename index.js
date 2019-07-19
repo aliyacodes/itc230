@@ -1,50 +1,70 @@
 'use strict'
 
 
-let cartoon = require("lib/cartoon.js");
+const Cartoon = require('./models/cartoon');
 
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 
+
 app.set('port', process.env.PORT || 3000);
 app.use(express.static(__dirname + '/views')); // allows direct navigation to static files
 app.use(bodyParser.urlencoded({extended: true}));
+
 
 const handlebars =  require("express-handlebars");
 app.engine(".html", handlebars({extname: '.html', defaultLayout: false}));
 app.set("view engine", ".html");
 
 
+// find all documents
 app.get('/', (req,res) => {
-    res.render('home', {cartoons: cartoon.getAll()});
+
+    Cartoon.find({}, (err, cartoons) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('home', {cartoons: cartoons });
+        }
+    });
 });
 
-// ABOUT - send plain text response
+
+
+
+// ABOUT    -    send plain text response
 app.get('/about', (req,res) => {
     res.type('text/plain');
     res.send('About Page');
 });
 
-// DELETE - handle GET (get renders query)
+// DELETE    -    (get renders query)
 app.get('/delete', (req,res) => {
-    console.log(req.query.show + ' deleted');
-    let result = cartoon.delete(req.query.show); // delete cartoon object
-    res.render('delete', {show: req.query.show, result: result});
+    Cartoon.deleteOne({ show: req.query.show }, (err, deleted) => {
+        if (err) return next(err);
+        Cartoon.countDocuments((err, total) => {
+            res.render('delete', {show: req.query.show, total: total, deleted: deleted } );
+        });
+    });
 });
 
-// ADD - handle GET (get renders query)
-app.get('/details', (req,res) => {
-    console.log(req.query);
-    let found = cartoon.get(req.query.show);
-    res.render('details', {show: req.query.show, result: found});
+
+// ADD    -    (get renders query)
+app.get('/details', (req,res,next) => {
+    Cartoon.findOne({ show: req.query.show }, (err, cartoon) => {
+        if (err) return next(err);
+        res.render('details', {result: cartoon} );
+    });
 });
 
-// SEARCH - handle POST (post renders body)
-app.post('/details', (req,res) => {
-    console.log(req.body);
-    let found = cartoon.get(req.body.show);
-    res.render('details', {show: req.body.show, result: found, cartoons: cartoon.getAll()});
+
+// SEARCH
+app.post('/details', (req,res,next) => {
+    Cartoon.findOne({ show: req.body.show }, (err, cartoon) => {
+        if (err) return next(err);
+        res.render('details', {result: cartoon} );
+    });
 });
 
 // define 404 handler
@@ -57,3 +77,9 @@ app.use((req,res) => {
 app.listen(app.get('port'), () => {
     console.log('Express started at ' + __dirname);
 });
+
+
+
+
+// - findOne -> returns object
+// - find -> returns array
