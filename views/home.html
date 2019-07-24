@@ -7,10 +7,12 @@
                 <button>Search</button>
             </form>
 
-<!--            <form method="GET" action="/details">-->
-<!--                <input type="text" name="show" placeholder="Add cartoons..." required maxlength="100">-->
-<!--                <button>Add</button>-->
-<!--            </form>-->
+            <form method="POST" action="/add">
+                <input type="text" name="show" placeholder="Add show..." required maxlength="100">
+                <input type="text" name="network" placeholder="Add network..." required maxlength="100">
+                <input type="text" name="airdate" placeholder="Add air date..." required maxlength="4">
+                <button>Add</button>
+            </form>
 
         <h3>Cartoons</h3>
 

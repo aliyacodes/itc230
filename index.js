@@ -31,9 +31,7 @@ app.get('/', (req,res) => {
 });
 
 
-
-
-// ABOUT    -    send plain text response
+// ABOUT
 app.get('/about', (req,res) => {
     res.type('text/plain');
     res.send('About Page');
@@ -50,7 +48,16 @@ app.get('/delete', (req,res) => {
 });
 
 
-// ADD    -    (get renders query)
+// ADD    -    (post renders body)
+app.post('/add', (req,res,next) => {
+    const newCartoon = {show: req.body.show, network: req.body.network, airdate: req.body.airdate };
+    Cartoon.updateOne({show: req.body.show}, newCartoon, {upsert: true}, (err, result) => {
+        if (err) return next(err);
+        res.render('details', {result: newCartoon, action: 'added'} );
+
+    });
+});
+
 app.get('/details', (req,res,next) => {
     Cartoon.findOne({ show: req.query.show }, (err, cartoon) => {
         if (err) return next(err);
@@ -78,8 +85,3 @@ app.listen(app.get('port'), () => {
     console.log('Express started at ' + __dirname);
 });
 
-
-
-
-// - findOne -> returns object
-// - find -> returns array
