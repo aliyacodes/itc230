@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb36430f-d14b-48f5-b353-e6d7d11d63e1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/cartoon.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/cartoon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/details.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/home.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/urmom/credentials.js" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -40,8 +37,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="50" column="34" lean-forward="true" selection-start-line="50" selection-start-column="34" selection-end-line="50" selection-end-column="34" />
+            <state relative-caret-position="150">
+              <caret line="10" column="42" lean-forward="true" selection-start-line="10" selection-start-column="42" selection-end-line="10" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -99,11 +96,6 @@
               <item name="itc230" type="b2602c69:ProjectViewProjectNode" />
               <item name="itc230" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="itc230" type="b2602c69:ProjectViewProjectNode" />
-              <item name="itc230" type="462c0819:PsiDirectoryNode" />
-              <item name="urmom" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="itc230" type="b2602c69:ProjectViewProjectNode" />
@@ -195,16 +187,15 @@
       <workItem from="1563437469972" duration="10675000" />
       <workItem from="1563496489736" duration="4041000" />
       <workItem from="1563843509280" duration="4494000" />
-      <workItem from="1563913905978" duration="6107000" />
+      <workItem from="1563913905978" duration="6225000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="145059000" />
+    <option name="totallyTimeSpent" value="145177000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="134" y="23" width="1143" height="857" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49659863" visible="true" weight="0.27361855" />
       <window_info id="Structure" order="1" sideWeight="0.50340134" side_tool="true" weight="0.1576414" />
@@ -220,7 +211,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.19137466" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.6172507" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -499,8 +490,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="50" column="34" lean-forward="true" selection-start-line="50" selection-start-column="34" selection-end-line="50" selection-end-column="34" />
+        <state relative-caret-position="150">
+          <caret line="10" column="42" lean-forward="true" selection-start-line="10" selection-start-column="42" selection-end-line="10" selection-end-column="42" />
         </state>
       </provider>
     </entry>
