@@ -71,7 +71,7 @@ app.post('/add', (req,res,next) => {
     Cartoon.updateOne({ show: req.body.show }, newCartoon, {upsert: true}, (err, added) => {
         if (err) return next(err);
         Cartoon.countDocuments((err, total) => {
-            res.render('add', {result: newCartoon, total: total, added: added, action: 'added'});
+            res.render('add', {show: req.body.show, result: newCartoon, total: total, added: added} );
 
         });
     });
