@@ -65,13 +65,15 @@ app.get('/details', (req,res,next) => {
     });
 });
 
-// ADD    -    (post renders body)
+// ADD
 app.post('/add', (req,res,next) => {
     const newCartoon = { show: req.body.show, network: req.body.network, airdate: req.body.airdate };
-    Cartoon.updateOne({ show: req.body.show }, newCartoon, {upsert: true}, (err, result) => {
+    Cartoon.updateOne({ show: req.body.show }, newCartoon, {upsert: true}, (err, added) => {
         if (err) return next(err);
-        res.render('details', {result: newCartoon, action: 'added'} );
+        Cartoon.countDocuments((err, total) => {
+            res.render('add', {result: newCartoon, total: total, added: added, action: 'added'});
 
+        });
     });
 });
 
@@ -82,6 +84,8 @@ app.post('/details', (req,res,next) => {
         res.render('details', {result: cartoon} );
     });
 });
+
+
 
 /* API ROUTES */
 
