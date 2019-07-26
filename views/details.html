@@ -1,13 +1,17 @@
 <html>
     <body>
-        <a href="/">Home</a>
-{{result}}
+        </p><a href="/">Home</a>
+
+
 {{#if result}}
 
-        <h2>You searched for: {{show}}</h2>
-            <li>Show: {{result.show}}</li>
-            <li>Original Network: {{result.network}}</li>
-            <li>Original Release Date: {{result.airdate}}</li>
+        <h2>Cartoon: {{result.show}}</h2>
+            <ul>
+                <li>Show: {{result.show}}</li>
+                <li>Original Network: {{result.network}}</li>
+                <li>Original Release Date: {{result.airdate}}</li>
+            </ul>
+<!--                <p>TEST: {{result}}</p>-->
 
                 <p><a href="/delete?show={{result.show}}">Delete</a></p>
 
