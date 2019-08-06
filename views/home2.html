@@ -1,0 +1,229 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>c4r700n5</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+
+
+    <style type="text/css">
+        .flex-container {
+            display: -webkit-flex;
+            display: flex;
+            width: 600px;
+            background-color: #000000;
+        }
+        #item-list {
+            background-color: #dddddd;
+            width: 30%;
+            padding: 0px 10px 0px 0px;
+        }
+        #item-details {
+            background-color: #ffb6c1;
+            width: 75%;
+            padding: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div id="root"></div>
+
+<!-- NOTE: text/babel type required to support JSX -->
+<script type="text/babel">
+
+    // define overall app component
+    class CartoonApp extends React.Component {
+        constructor(props){
+            super(props); // be sure to first instantiate parent class
+            // Set initial state using data from server application
+            this.state = {
+                items: {{{cartoons}}},
+                //filter: "", // search term
+                curItem: {} // current selected item
+        };
+            // bind App context to functions used by child components
+            this.onSearch = this.onSearch.bind(this);
+            this.viewDetails = this.viewDetails.bind(this);
+            this.onChange = this.onChange.bind(this);
+            this.onSave = this.onSave.bind(this);
+            this.onDelete = this.onDelete.bind(this);
+            this.onClear = this.onClear.bind(this);
+        }
+        // handle changes to search form
+        onSearch(event) {
+            // set search term. react will handle component updates
+            this.setState({filter: event.target.value.toLowerCase() });
+        }
+        // view item details when list item clicked
+        viewDetails(event) {
+            // event.target is item clicked. Assumes each item has an id attribute
+            let editItem = this.state.items.find((item) => {
+                return item._id == event.target.id;
+                //return item._id === event.target.id;
+            });
+            this.setState({curItem: editItem});
+        }
+        // clear details form
+        onClear() {
+            this.setState({curItem: {}});
+        }
+        // handle details changes
+        onChange(event) {
+            let newItem = this.state.curItem;
+            newItem[event.target.name] = event.target.value
+            this.setState({curItem: newItem});
+        }
+        // Handle item save
+        onSave() {
+            let newItem = this.state.curItem;
+            if (!newItem.show) {
+                return;
+            }
+            fetch('/api/add/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newItem)
+            }).then(res => res.json())
+                .then((json) => {
+
+                    let newData;
+                    if (!newItem._id) { // add new item to array
+                        newData = this.state.items;
+                        newItem._id = json._id;
+                        newData.push(newItem);
+                    } else { // update existing item
+                        newData = this.state.items.map((item) => {
+                            if (item._id === newItem._id) {
+                                item = newItem;
+                            }
+                            return item;
+                        });
+                    }
+                    // Update state with new array
+                    this.setState({items: newData});
+                });
+        }
+
+        // Handle item delete // DELETE WORKS (temporarily)
+        onDelete() {
+            let id = this.state.curItem._id;
+
+            fetch('/api/delete/' + id).then((response) => {
+                return response.json();
+            }).then((results) => {
+                // Filter all items except the one to be removed
+                const remainder = this.state.items.filter((item) => {
+                    return item._id !== id;
+                });
+                // Update state with new array & clear current item
+                this.setState({items: remainder, curItem: {}});
+            });
+        }
+
+        render() {
+            // render app UI elements
+            return (
+                <div>
+                    <Show show="Favorite Cartoons" />
+                    <SearchForm filter={this.state.filter} change={this.onSearch} />
+                    <div className="flex-container">
+                        <ItemList
+                            items={this.state.items}
+                            filter={this.state.filter}
+                            view={this.viewDetails}
+                        />
+                        <ItemDetails
+                            item={this.state.curItem}
+                            change={this.onChange}
+                            save={this.onSave}
+                            reset={this.onClear}
+                            delete={this.onDelete} />
+                    </div>
+                </div>
+            );
+        }
+    }
+
+    // UI elements
+    const Show = ({show}) => {
+        return (
+            <div><h2>{show}</h2></div>
+        );
+    }
+    const SearchForm = (props) => {
+        return (
+            <div>
+                <input
+                    type="text" placeholder="Search cartoons..."
+                    value={props.filter}
+                    onChange={props.change}
+                /><p/>
+            </div>
+        );
+    }
+    const ItemList = ({items, filter, view}) => {
+        // return items that match search entry field, or all items if no entry
+        const itemNodes = items.map((item) => {
+            if (!filter || item.show.toLowerCase().includes(filter)) {
+                return <li onClick={view} id={item._id} key={item._id}>{item.show}</li>
+            }
+        });
+        return <span id="item-list"><ul>{itemNodes}</ul></span>;
+    }
+
+    const ItemDetails = (props) => {
+        return (
+            <span id="item-details">
+            <h3>Details:</h3>
+            <form>
+              <input type="text" name="show" placeholder="show" onChange={props.change} value={props.item.show || ""} /><p/>
+              <input type="text" name="network" placeholder="network"  onChange={props.change} value={props.item.network || ""} /><p/>
+                <input type="text" name="airdate" placeholder="air date" onChange={props.change} value={props.item.airdate || ""} />
+              <p/>
+            </form>
+                <button onClick={props.save}>Save</button>
+                <button onClick={props.reset}>Reset</button>
+                <button onClick={props.delete}>Delete</button>
+          </span>
+        );
+    }
+
+
+    ReactDOM.render(<CartoonApp />, document.getElementById('root'));
+
+
+
+    // function getFullYear(props) {
+    //     let date = {props.airdate};
+    //
+    //     return date.getFullYear();
+    // }
+
+
+
+
+    // convert date value to yyyy-mm-dd expected by HTML5 date field
+
+    // function getUTCFullYear(dateString) {
+    //     let date = (dateString) ? new Date(dateString) : new Date();
+    //     let datepicker = new Date({dateFormat: 'yy'})
+    //     let day = (date.getDate() >=10) ? date.getDate() : "0" + date.getDate();
+    //     return date.getUTCFullYear(); // + "-" + month + "-" + day;
+    // }
+    //
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
