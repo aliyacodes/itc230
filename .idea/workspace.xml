@@ -4,7 +4,8 @@
     <list default="true" id="cb36430f-d14b-48f5-b353-e6d7d11d63e1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/urmom/credentials.js" beforeDir="false" afterPath="$PROJECT_DIR$/urmom/credentials.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/home2.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/home2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/home_demo.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/home_demo.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,13 +35,13 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/node_modules" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/../../../" />
       <recent name="$PROJECT_DIR$/urmom" />
       <recent name="$PROJECT_DIR$/test" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/node_modules" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -55,7 +56,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.home2.html">
+  <component name="RunManager" selected="Node.js.index.js">
     <configuration name="home2.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/itc230/views/home2.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
@@ -125,7 +126,16 @@
       <workItem from="1564856735917" duration="11596000" />
       <workItem from="1564871936128" duration="5709000" />
       <workItem from="1564988995322" duration="502000" />
-      <workItem from="1565057783091" duration="417000" />
+      <workItem from="1565057783091" duration="803000" />
+      <workItem from="1565132997146" duration="4618000" />
+      <workItem from="1565137803935" duration="4000" />
+      <workItem from="1565137811074" duration="16000" />
+      <workItem from="1565137847435" duration="4151000" />
+      <workItem from="1565143954992" duration="1339000" />
+      <workItem from="1565145365524" duration="358000" />
+      <workItem from="1565221466421" duration="11000" />
+      <workItem from="1565305840415" duration="13882000" />
+      <workItem from="1565738468515" duration="4977000" />
     </task>
     <servers />
   </component>

@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>c4r700n5</title>
+    <title>CART00NS</title>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
@@ -43,16 +43,17 @@
             // Set initial state using data from server application
             this.state = {
                 items: {{{cartoons}}},
-                //filter: "", // search term
+                filter: "", // search term
                 curItem: {} // current selected item
         };
             // bind App context to functions used by child components
             this.onSearch = this.onSearch.bind(this);
             this.viewDetails = this.viewDetails.bind(this);
+            this.onClear = this.onClear.bind(this);
             this.onChange = this.onChange.bind(this);
             this.onSave = this.onSave.bind(this);
             this.onDelete = this.onDelete.bind(this);
-            this.onClear = this.onClear.bind(this);
+
         }
         // handle changes to search form
         onSearch(event) {
@@ -63,8 +64,7 @@
         viewDetails(event) {
             // event.target is item clicked. Assumes each item has an id attribute
             let editItem = this.state.items.find((item) => {
-                return item._id == event.target.id;
-                //return item._id === event.target.id;
+                return item._id === event.target.id;
             });
             this.setState({curItem: editItem});
         }
@@ -78,7 +78,7 @@
             newItem[event.target.name] = event.target.value
             this.setState({curItem: newItem});
         }
-        // Handle item save
+        // Handle item save   // SAVE WORKS //
         onSave() {
             let newItem = this.state.curItem;
             if (!newItem.show) {
@@ -109,7 +109,7 @@
                 });
         }
 
-        // Handle item delete // DELETE WORKS (temporarily)
+        // Handle item delete // DELETE ONLY WORKS TEMPORARILY
         onDelete() {
             let id = this.state.curItem._id;
 
@@ -122,6 +122,7 @@
                 });
                 // Update state with new array & clear current item
                 this.setState({items: remainder, curItem: {}});
+
             });
         }
 
@@ -135,8 +136,8 @@
                         <ItemList
                             items={this.state.items}
                             filter={this.state.filter}
-                            view={this.viewDetails}
-                        />
+                            view={this.viewDetails} />
+
                         <ItemDetails
                             item={this.state.curItem}
                             change={this.onChange}
@@ -181,47 +182,19 @@
             <span id="item-details">
             <h3>Details:</h3>
             <form>
-              <input type="text" name="show" placeholder="show" onChange={props.change} value={props.item.show || ""} /><p/>
-              <input type="text" name="network" placeholder="network"  onChange={props.change} value={props.item.network || ""} /><p/>
-                <input type="text" name="airdate" placeholder="air date" onChange={props.change} value={props.item.airdate || ""} />
-              <p/>
+                <input type="text" name="show" placeholder="show" onChange={props.change} value={props.item.show || ""} /><p/>
+                <input type="text" name="network" placeholder="network"  onChange={props.change} value={props.item.network || ""} /><p/>
+                <input type="text" name="airdate" placeholder="air date" onChange={props.change} value={props.item.airdate || ""} /><p/>
             </form>
                 <button onClick={props.save}>Save</button>
                 <button onClick={props.reset}>Reset</button>
                 <button onClick={props.delete}>Delete</button>
-          </span>
+            </span>
         );
     }
 
 
     ReactDOM.render(<CartoonApp />, document.getElementById('root'));
-
-
-
-    // function getFullYear(props) {
-    //     let date = {props.airdate};
-    //
-    //     return date.getFullYear();
-    // }
-
-
-
-
-    // convert date value to yyyy-mm-dd expected by HTML5 date field
-
-    // function getUTCFullYear(dateString) {
-    //     let date = (dateString) ? new Date(dateString) : new Date();
-    //     let datepicker = new Date({dateFormat: 'yy'})
-    //     let day = (date.getDate() >=10) ? date.getDate() : "0" + date.getDate();
-    //     return date.getUTCFullYear(); // + "-" + month + "-" + day;
-    // }
-    //
-
-
-
-
-
-
 
 
 </script>

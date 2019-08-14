@@ -5,6 +5,28 @@
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
 
+<!--    <style type="text/css">-->
+<!--        .details {-->
+<!--            border: 1px dotted hotpink;-->
+<!--            /*display: -webkit-flex;*/-->
+<!--            /*display: flex;*/-->
+<!--            /*width: 600px;*/-->
+<!--            /*background-color: #000000;*/-->
+<!--        }-->
+<!--        .item-list {-->
+<!--            color: hotpink;-->
+<!--            border: #000;-->
+
+<!--        }-->
+<!--        /*#item-details {*/-->
+<!--        /*    background-color: #ffb6c1;*/-->
+<!--        /*    width: 75%;*/-->
+<!--        /*    padding: 10px;*/-->
+<!--        /*}*/-->
+<!--    </style>-->
+
+
+
     <title>c4r700n5</title>
 
 </head>
@@ -14,6 +36,91 @@
 
 <!-- NOTE: text/babel type required to support JSX -->
 <script type="text/babel">
+
+    class CartoonApp extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                items: {{{cartoons}}},
+            curItem: {}
+        };
+
+            // bind App context to functions used by child components
+            this.viewDetails = this.viewDetails.bind(this);
+            this.onChange = this.onChange.bind(this);
+            this.onClear = this.onClear.bind(this);
+            this.onSearch = this.onSearch.bind(this);
+            this.onDelete = this.onDelete.bind(this);
+
+        }
+
+        // handle changes to search form
+        onSearch(event) {
+            // set search term. react will handle component updates
+            this.setState({filter: event.target.value.toLowerCase() });
+        }
+
+        // view item details when list item is clicked
+        viewDetails(event) {
+            console.log(event.target)
+            let editItem = this.state.items.find((item)=>{
+                return item._id == event.target.id;
+            });
+            this.setState({curItem: editItem});
+        }
+
+        // handle details changes
+        onChange(event) {
+            let newItem = this.state.curItem;
+            newItem[event.target.name] = event.target.value
+            this.setState({curItem: newItem});
+        }
+
+        // clear details form
+        onClear() {
+            this.setState({curItem: {}});
+        }
+
+        onDelete() {
+            let id = this.state.curItem._id;
+
+            fetch('/api/delete/' + id).then((response) => {
+                return response.json();
+            }).then((results) => {
+                // Filter all items except the one to be removed
+                const remainder = this.state.items.filter((item) => {
+                    return item._id !== id;
+                });
+                // Update state with new array & clear current item
+                this.setState({items: remainder, curItem: {}});
+
+            });
+        }
+
+        render() {
+            return(
+                <div>
+                    <List
+                        items={this.state.items}
+                        clickHandler={this.viewDetails}/>
+                    <Details
+                        item={this.state.curItem}
+                        change ={this.onChange}
+                        delete={this.onDelete}
+                        reset={this.onClear}/>
+
+
+                </div>
+            );
+        }
+    }
+
+    // const Show = ({show}) => {
+    //     return (
+    //         <div><h2>{show}</h2></div>
+    //     );
+    // }
+
     const List = (props) => {
         let items_list = props.items.map((item) => {
             return <li onClick={props.clickHandler} key={item._id} id={item._id}>{item.show}</li>
@@ -30,39 +137,30 @@
     const Details = (props) => {
         return (
             <div>
-                show: {props.item.show}<br/>
-                network: {props.item.network}<br/>
-                airdate: {props.item.airdate}<br/>
+                <form>
+                    <input type="text" name="show" placeholder="show" onChange={props.change} value={props.item.show || ""} /><p/>
+                    <input type="text" name="network" placeholder="network"  onChange={props.change} value={props.item.network || ""} /><p/>
+                    <input type="text" name="airdate" placeholder="air date" onChange={props.change} value={props.item.airdate || ""} />
+                    <p/>
+                </form>
+
+
+                <button onClick={props.save}>Save</button>
+                <button onClick={props.reset}>Reset</button>
+                <button onClick={props.delete}>Delete</button>
             </div>
         )
     }
-    class CartoonApp extends React.Component {
-        constructor(props) {
-            super(props);
-            this.state = {
-                items: {{{cartoons}}},
-            curItem: {}
-        };
-            this.viewDetails = this.viewDetails.bind(this);
-        }
-        viewDetails(event) {
-            console.log(event.target)
-            let editItem = this.state.items.find((item)=>{
-                return item._id == event.target.id;
-            });
-            this.setState({curItem: editItem});
-        }
-        render(){
-            return(
-                <div>
-                    <List items={this.state.items} clickHandler={this.viewDetails}/>
-                    <Details item={this.state.curItem}/>
-                </div>
-            );
-        }
-    }
+
     ReactDOM.render(<CartoonApp/>, document.getElementById('root'));
 </script>
 
 </body>
 </html>
+
+
+
+
+
+
+
